@@ -38,7 +38,7 @@ jobs:
       - name: Run tests
         run: make test
         env:
-        APP_URL: http://127.0.0.1:3000
+          APP_URL: http://127.0.0.1:3000
 
       - name: Upload Playwright report
         if: failure()
