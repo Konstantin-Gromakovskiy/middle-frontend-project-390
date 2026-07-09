@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            code/package-lock.json
+
+      - name: Install root & frontend dependencies
+        run: make install
+
+      - name: Lint
+        run: make lint
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+        working-directory: code
+
+      - name: Build app
+        run: make build
+
+      - name: Run tests
+        run: make test
+        env:
+        APP_URL: http://127.0.0.1:3000
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: code/playwright-report/
+          if-no-files-found: ignore

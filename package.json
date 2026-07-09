@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "mock": "npx @stoplight/prism-cli mock contract/openapi.yaml"
+  },
+  "dependencies": {
+    "@hexlet/frontend-flight-booking-server": "^0.2.0"
+  }
+}

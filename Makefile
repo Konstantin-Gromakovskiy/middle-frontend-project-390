@@ -9,4 +9,15 @@ start:
 	cd code && npm run start
 
 install:
-	cd code && npm install
+	npm ci && cd code && npm ci
+
+test:
+	cd code && npm run test
+
+lint:
+	cd code && npm run lint
+
+mock-server:
+	npm run mock
+
+
