@@ -3,6 +3,7 @@
 import { Button, Flex, NumberInput, TextInput } from '@mantine/core'
 import { DateInput } from '@mantine/dates'
 import { useForm } from '@mantine/form'
+import type { City } from '@/shered/api/server-api.types'
 
 type FlightSearchValues = {
   origin: string
@@ -12,6 +13,7 @@ type FlightSearchValues = {
 }
 
 type FlightSearchFormProps = {
+  cities: City[]
   searchAction: (values: FlightSearchValues) => void
 }
 

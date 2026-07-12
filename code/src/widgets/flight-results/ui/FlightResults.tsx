@@ -1,7 +1,10 @@
 import { Paper } from '@mantine/core'
 import { FlightSearchForm } from '@/features/search-flights/ui/FlightSearchForm'
+import { getCities } from './get-cities'
 
-export function FlightResults() {
+export async function FlightResults() {
+  const cities = await getCities()
+
   const searchFlights = async (values: unknown) => {
     'use server'
     console.log('values', values)
@@ -9,7 +12,7 @@ export function FlightResults() {
 
   return (
     <Paper component="section" p={{ base: 'md', sm: 'xl' }}>
-      <FlightSearchForm searchAction={searchFlights} />
+      <FlightSearchForm cities={cities} searchAction={searchFlights} />
     </Paper>
   )
 }
