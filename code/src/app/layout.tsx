@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import '@mantine/core/styles.css'
-import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core'
+import { Box, ColorSchemeScript, Container, Divider, Group, MantineProvider, Text, mantineHtmlProps } from '@mantine/core'
+import { FlightTabs } from '@/components/FlightTabs'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -25,12 +26,28 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`} {...mantineHtmlProps}>
+    <html lang="ru" className={`${geistSans.variable} ${geistMono.variable}`} {...mantineHtmlProps}>
       <head>
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider>{children}</MantineProvider>
+        <MantineProvider>
+          <Box px={{ base: 16, sm: 24 }}>
+            <Container size={1120} px={0}>
+              <Group component="header" h={84} justify="space-between" wrap="nowrap">
+                <Text c="blue" fw={800} fz="xl">
+                  Skybook
+                </Text>
+                <FlightTabs />
+                <Text c="gray" fz="sm">
+                  Путешествия начинаются здесь
+                </Text>
+              </Group>
+              <Divider />
+            </Container>
+          </Box>
+          {children}
+        </MantineProvider>
       </body>
     </html>
   )
