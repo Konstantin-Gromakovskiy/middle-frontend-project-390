@@ -4,35 +4,29 @@ import { Autocomplete, Button, Flex, NumberInput } from '@mantine/core'
 import { DateInput } from '@mantine/dates'
 import { useForm } from '@mantine/form'
 import type { City } from '@/shered/api/server-api.types'
-
-type FlightSearchValues = {
-  origin: string
-  destination: string
-  departureDate: Date | null
-  passengers: number
-}
+import { searchFlights } from '../model/searchFlights'
+import type { FlightSearchValues } from '../model/types'
 
 type FlightSearchFormProps = {
   cities: City[]
-  searchAction: (values: FlightSearchValues) => void
 }
 
-export function FlightSearchForm({ cities, searchAction }: FlightSearchFormProps) {
+export function FlightSearchForm({ cities }: FlightSearchFormProps) {
   const form = useForm<FlightSearchValues>({
     initialValues: {
       origin: '',
       destination: '',
-      departureDate: null,
+      departureDate: new Date(),
       passengers: 1,
     },
   })
 
   const submitFrom = form.onSubmit((values) => {
-    searchAction(values)
+    searchFlights(values)
   })
 
   const cityOptions = cities.map(({ code, name, country }) => ({
-    value: name,
+    value: code,
     label: `${name}${country ? `, ${country}` : ''} (${code})`,
   }))
 
