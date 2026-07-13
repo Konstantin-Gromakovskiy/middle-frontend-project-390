@@ -1,10 +1,9 @@
-import { Badge, Card, Divider, Group, Stack, Text } from '@mantine/core'
-import type { ReactNode } from 'react'
+import Link from 'next/link'
+import { Badge, Button, Card, Divider, Group, Stack, Text } from '@mantine/core'
 import type { Flight } from '@/shered/api/server-api.types'
 
 type FlightCardProps = {
   flight: Flight
-  children?: ReactNode
 }
 
 function formatTime(date: string) {
@@ -21,7 +20,7 @@ function formatDuration(durationMinutes: number) {
   return `${hours} ч ${minutes} мин`
 }
 
-export function FlightCard({ flight, children }: FlightCardProps) {
+export function FlightCard({ flight }: FlightCardProps) {
   const price = new Intl.NumberFormat('ru-RU', {
     style: 'currency',
     currency: flight.price.currency,
@@ -66,7 +65,9 @@ export function FlightCard({ flight, children }: FlightCardProps) {
           <Text fw={700} size="lg">
             {price}
           </Text>
-          {children}
+          <Button component={Link} href={`/booking/${flight.id}`}>
+            Забронировать
+          </Button>
         </Group>
       </Stack>
     </Card>
