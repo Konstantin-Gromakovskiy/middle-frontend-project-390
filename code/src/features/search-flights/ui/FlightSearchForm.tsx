@@ -1,41 +1,21 @@
 'use client'
 
-import { Alert, Autocomplete, Button, Flex, NumberInput } from '@mantine/core'
+import { Autocomplete, Button, Flex, NumberInput } from '@mantine/core'
 import { DateInput } from '@mantine/dates'
 import { useForm } from '@mantine/form'
-import { useRef, useState, useTransition } from 'react'
-import type { City, Flight } from '@/shered/api/server-api.types'
-import { searchFlights } from '../model/searchFlights'
 import type { FlightSearchValues } from '../model/types'
+import type { City } from '@/shered/api/server-api.types'
 
 type FlightSearchFormProps = {
   cities: City[]
-  onFlightsFound: (flights: Flight[]) => void
+  initialValues: FlightSearchValues
+  isLoading: boolean
+  onSearch: (values: FlightSearchValues) => void
 }
 
-function useRequestSequence() {
-  const sequence = useRef(0)
-
-  return {
-    next: () => {
-      sequence.current += 1
-      return sequence.current
-    },
-    isLatest: (requestId: number) => requestId === sequence.current,
-  }
-}
-
-export function FlightSearchForm({ cities, onFlightsFound }: FlightSearchFormProps) {
-  const [isPending, startTransition] = useTransition()
-  const [error, setError] = useState<string | null>(null)
-  const requestSequence = useRequestSequence()
+export function FlightSearchForm({ cities, initialValues, isLoading, onSearch }: FlightSearchFormProps) {
   const form = useForm<FlightSearchValues>({
-    initialValues: {
-      origin: '',
-      destination: '',
-      departureDate: new Date(),
-      passengers: 1,
-    },
+    initialValues,
     validate: {
       origin: value => value.trim().length > 0 ? null : 'Укажите город вылета',
       destination: value => value.trim().length > 0 ? null : 'Укажите город прилёта',
@@ -55,26 +35,10 @@ export function FlightSearchForm({ cities, onFlightsFound }: FlightSearchFormPro
   }
 
   const handleSubmit = (values: FlightSearchValues) => {
-    const requestId = requestSequence.next()
-    setError(null)
-
-    startTransition(async () => {
-      try {
-        const flights = await searchFlights({
-          ...values,
-          origin: getCityCode(values.origin),
-          destination: getCityCode(values.destination),
-        })
-
-        if (requestSequence.isLatest(requestId)) {
-          onFlightsFound(flights)
-        }
-      }
-      catch {
-        if (requestSequence.isLatest(requestId)) {
-          setError('Не удалось найти рейсы. Проверьте параметры поиска и попробуйте снова.')
-        }
-      }
+    onSearch({
+      ...values,
+      origin: getCityCode(values.origin),
+      destination: getCityCode(values.destination),
     })
   }
   const submitForm = form.onSubmit(handleSubmit)
@@ -115,11 +79,10 @@ export function FlightSearchForm({ cities, onFlightsFound }: FlightSearchFormPro
           {...form.getInputProps('passengers')}
         />
 
-        <Button type="submit" loading={isPending}>
+        <Button type="submit" loading={isLoading}>
           Найти
         </Button>
       </Flex>
-      {error && <Alert role="alert" mt="md" color="red">{error}</Alert>}
     </form>
   )
 }
