@@ -49,18 +49,20 @@ export function FlightSearchForm({ cities, initialValues, isLoading, onSearch }:
   }))
 
   return (
-    <form onSubmit={submitForm}>
+    <form data-testid="flight-search-form" onSubmit={submitForm}>
       <Flex gap="lg" align="flex-end">
         <Autocomplete
           label="Откуда"
           placeholder="Город вылета"
           data={cityOptions}
+          data-testid="search-origin"
           {...form.getInputProps('origin')}
         />
         <Autocomplete
           label="Куда"
           placeholder="Город прилёта"
           data={cityOptions}
+          data-testid="search-destination"
           {...form.getInputProps('destination')}
         />
         <DateInput
@@ -68,6 +70,7 @@ export function FlightSearchForm({ cities, initialValues, isLoading, onSearch }:
           placeholder="Выберите дату"
           valueFormat="DD.MM.YYYY"
           clearable
+          data-testid="search-date"
           {...form.getInputProps('departureDate')}
         />
         <NumberInput
@@ -76,10 +79,11 @@ export function FlightSearchForm({ cities, initialValues, isLoading, onSearch }:
           min={1}
           allowDecimal={false}
           allowNegative={false}
+          data-testid="search-passengers"
           {...form.getInputProps('passengers')}
         />
 
-        <Button type="submit" loading={isLoading}>
+        <Button type="submit" loading={isLoading} data-testid="search-submit">
           Найти
         </Button>
       </Flex>

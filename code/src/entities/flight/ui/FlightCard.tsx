@@ -30,7 +30,7 @@ export function FlightCard({ flight }: FlightCardProps) {
   const destination = `${flight.destination.name} (${flight.destination.code})`
 
   return (
-    <Card withBorder radius="md" padding="lg">
+    <Card data-testid="flight-result-item" withBorder radius="md" padding="lg">
       <Stack gap="md">
         <Group justify="space-between">
           <Text fw={600}>{flight.airline.name}</Text>
@@ -65,7 +65,7 @@ export function FlightCard({ flight }: FlightCardProps) {
           <Text fw={700} size="lg">
             {price}
           </Text>
-          <Button component={Link} href={`/booking/${flight.id}`}>
+          <Button data-testid="book-flight" component={Link} href={`/booking/${flight.id}`}>
             Забронировать
           </Button>
         </Group>

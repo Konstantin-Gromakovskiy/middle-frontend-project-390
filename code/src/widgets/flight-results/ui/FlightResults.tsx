@@ -69,17 +69,17 @@ export function FlightResults({ cities }: FlightResultsProps) {
           onSearch={handleSearch}
         />
 
-        <section aria-live="polite">
+        <section data-testid="flight-results" aria-live="polite">
           <Stack gap="md">
             <Title order={2}>Рейсы</Title>
             {isLoading && <Loader aria-label="Загрузка рейсов" />}
             {searchState.status === 'error' && (
-              <Alert role="alert" color="red">
+              <Alert data-testid="flights-error" role="alert" color="red">
                 Не удалось найти рейсы. Проверьте параметры поиска и попробуйте снова.
               </Alert>
             )}
             {searchState.status === 'success' && searchState.flights.length === 0 && (
-              <Text c="dimmed">На выбранную дату рейсов не найдено.</Text>
+              <Text data-testid="flights-empty" c="dimmed">На выбранную дату рейсов не найдено.</Text>
             )}
             {searchState.status === 'success' && searchState.flights.map(flight => (
               <FlightCard key={flight.id} flight={flight} />
