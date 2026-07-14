@@ -65,7 +65,7 @@ export function FlightCard({ flight }: FlightCardProps) {
           <Text fw={700} size="lg">
             {price}
           </Text>
-          <Button data-testid="book-flight" component={Link} href={`/booking/${flight.id}`}>
+          <Button data-testid="book-flight" component={Link} href={`/booking?flightId=${encodeURIComponent(flight.id)}`}>
             Забронировать
           </Button>
         </Group>

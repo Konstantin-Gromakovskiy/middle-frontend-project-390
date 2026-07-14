@@ -1,5 +1,3 @@
-'use server'
-
 import dayjs from 'dayjs'
 import { searchFlights as searchFlightsApi } from '@/entities/flight/api/searchFlights'
 import type { FlightSearchValues } from './types'

@@ -1,5 +1,3 @@
-'use server'
-
 import dayjs from 'dayjs'
 import { createBooking } from '@/entities/booking/api/createBooking'
 import { ApiError } from '@/shered/api/api-error'

@@ -1,5 +1,5 @@
 import { serverApi } from '@/shered/api/server-api'
 
-export function getCities() {
+export async function getCities() {
   return serverApi.cities.list()
 }

@@ -6,7 +6,7 @@ build:
 	cd code && npm run build
 
 start:
-	cd code && npm run start
+	npx frontend-flight-booking-server start -s ./code/out
 
 install:
 	npm ci && cd code && npm ci
@@ -19,5 +19,8 @@ lint:
 
 mock-server:
 	npm run mock
+
+backend:
+	npx frontend-flight-booking-server start
 
 
