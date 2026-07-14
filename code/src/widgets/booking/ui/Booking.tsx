@@ -16,7 +16,7 @@ export function Booking({ flight }: BookingProps) {
           <Text c="dimmed" mt="xs">Проверьте данные рейса и заполните информацию о пассажирах</Text>
         </div>
         <FlightBookingSummary flight={flight} />
-        <BookingForm />
+        <BookingForm flightId={flight.id} />
       </Stack>
     </Paper>
   )

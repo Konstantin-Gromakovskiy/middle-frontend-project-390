@@ -1,9 +1,11 @@
 'use client'
 
-import { Button, Card, Group, SimpleGrid, Stack, Text, TextInput } from '@mantine/core'
+import { Alert, Button, Card, Group, SimpleGrid, Stack, Text, TextInput } from '@mantine/core'
 import { DateInput } from '@mantine/dates'
 import { useForm } from '@mantine/form'
-import { useState } from 'react'
+import dayjs from 'dayjs'
+import { useState, useTransition } from 'react'
+import { createBookingAction } from '../model/createBookingAction'
 import type { BookingFormValues, PassengerFormValues } from '../model/types'
 
 const emptyPassenger: PassengerFormValues = {
@@ -14,8 +16,14 @@ const emptyPassenger: PassengerFormValues = {
   documentNumber: '',
 }
 
-export function BookingForm() {
-  const [isSubmitted, setIsSubmitted] = useState(false)
+type BookingFormProps = {
+  flightId: string
+}
+
+export function BookingForm({ flightId }: BookingFormProps) {
+  const [isPending, startTransition] = useTransition()
+  const [bookingCode, setBookingCode] = useState<string | null>(null)
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const form = useForm<BookingFormValues>({
     initialValues: {
       email: '',
@@ -28,7 +36,7 @@ export function BookingForm() {
       passengers: {
         firstName: value => value.trim().length > 0 ? null : 'Введите имя',
         lastName: value => value.trim().length > 0 ? null : 'Введите фамилию',
-        dateOfBirth: value => value instanceof Date && !Number.isNaN(value.getTime()) ? null : 'Укажите дату рождения',
+        dateOfBirth: value => value && dayjs(value).isValid() ? null : 'Укажите дату рождения',
         documentSeries: value => value.trim().length > 0 ? null : 'Введите серию документа',
         documentNumber: value => value.trim().length > 0 ? null : 'Введите номер документа',
       },
@@ -37,11 +45,35 @@ export function BookingForm() {
 
   const addPassenger = () => {
     form.insertListItem('passengers', { ...emptyPassenger })
-    setIsSubmitted(false)
+    setBookingCode(null)
+    setSubmitError(null)
   }
 
-  const handleSubmit = () => {
-    setIsSubmitted(true)
+  const handleSubmit = (values: BookingFormValues) => {
+    setBookingCode(null)
+    setSubmitError(null)
+
+    startTransition(async () => {
+      const result = await createBookingAction(flightId, values)
+
+      if (!result.success) {
+        setSubmitError(result.error ?? 'Не удалось создать бронирование. Попробуйте ещё раз.')
+        return
+      }
+
+      setBookingCode(result.bookingCode ?? null)
+    })
+  }
+
+  if (bookingCode) {
+    return (
+      <Alert data-testid="booking-success" color="green" title="Бронирование создано" role="status">
+        Код брони:
+        <Text span fw={700}>
+          {bookingCode}
+        </Text>
+      </Alert>
+    )
   }
 
   return (
@@ -125,21 +157,17 @@ export function BookingForm() {
                 </Stack>
               </Card>
             ))}
-            <Button type="button" variant="light" onClick={addPassenger} data-testid="add-passenger">
+            <Button type="button" variant="light" onClick={addPassenger} disabled={isPending} data-testid="add-passenger">
               Добавить пассажира
             </Button>
           </Stack>
         </section>
 
         <Stack gap="md" align="flex-start">
-          <Button type="submit" size="md" data-testid="submit-booking">
+          <Button type="submit" size="md" loading={isPending} data-testid="submit-booking">
             Забронировать
           </Button>
-          {isSubmitted && (
-            <Text c="green" size="sm" role="status">
-              Все данные заполнены. Отправка бронирования будет подключена позже.
-            </Text>
-          )}
+          {submitError && <Alert color="red" role="alert">{submitError}</Alert>}
         </Stack>
       </Stack>
     </form>

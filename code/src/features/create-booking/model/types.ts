@@ -1,7 +1,7 @@
 export type PassengerFormValues = {
   firstName: string
   lastName: string
-  dateOfBirth: Date | null
+  dateOfBirth: Date | string | null
   documentSeries: string
   documentNumber: string
 }
