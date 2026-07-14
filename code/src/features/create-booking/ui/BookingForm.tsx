@@ -1,6 +1,6 @@
 'use client'
 
-import { Alert, Button, Card, Group, SimpleGrid, Stack, Text, TextInput } from '@mantine/core'
+import { Alert, Button, Card, SimpleGrid, Stack, Text, TextInput } from '@mantine/core'
 import { DateInput } from '@mantine/dates'
 import { useForm } from '@mantine/form'
 import dayjs from 'dayjs'
@@ -12,7 +12,6 @@ const emptyPassenger: PassengerFormValues = {
   firstName: '',
   lastName: '',
   dateOfBirth: null,
-  documentSeries: '',
   documentNumber: '',
 }
 
@@ -37,7 +36,6 @@ export function BookingForm({ flightId }: BookingFormProps) {
         firstName: value => value.trim().length > 0 ? null : 'Введите имя',
         lastName: value => value.trim().length > 0 ? null : 'Введите фамилию',
         dateOfBirth: value => value && dayjs(value).isValid() ? null : 'Укажите дату рождения',
-        documentSeries: value => value.trim().length > 0 ? null : 'Введите серию документа',
         documentNumber: value => value.trim().length > 0 ? null : 'Введите номер документа',
       },
     },
@@ -69,7 +67,7 @@ export function BookingForm({ flightId }: BookingFormProps) {
     return (
       <Alert data-testid="booking-success" color="green" title="Бронирование создано" role="status">
         Код брони:
-        <Text span fw={700}>
+        <Text span fw={700} data-testid="booking-code">
           {bookingCode}
         </Text>
       </Alert>
@@ -90,14 +88,14 @@ export function BookingForm({ flightId }: BookingFormProps) {
                 label="Email"
                 placeholder="you@example.com"
                 type="email"
-                data-testid="booking-email"
+                data-testid="contact-email"
                 {...form.getInputProps('email')}
               />
               <TextInput
                 label="Номер телефона"
                 placeholder="+7 (900) 000-00-00"
                 type="tel"
-                data-testid="booking-phone"
+                data-testid="contact-phone"
                 {...form.getInputProps('phone')}
               />
             </SimpleGrid>
@@ -122,13 +120,13 @@ export function BookingForm({ flightId }: BookingFormProps) {
                     <TextInput
                       label="Имя"
                       placeholder="Иван"
-                      data-testid={`passenger-${index}-first-name`}
+                      data-testid={`passenger-${index}-firstName`}
                       {...form.getInputProps(`passengers.${index}.firstName`)}
                     />
                     <TextInput
                       label="Фамилия"
                       placeholder="Иванов"
-                      data-testid={`passenger-${index}-last-name`}
+                      data-testid={`passenger-${index}-lastName`}
                       {...form.getInputProps(`passengers.${index}.lastName`)}
                     />
                     <DateInput
@@ -136,23 +134,15 @@ export function BookingForm({ flightId }: BookingFormProps) {
                       placeholder="ДД.ММ.ГГГГ"
                       valueFormat="DD.MM.YYYY"
                       maxDate={new Date()}
-                      data-testid={`passenger-${index}-birth-date`}
+                      data-testid={`passenger-${index}-dob`}
                       {...form.getInputProps(`passengers.${index}.dateOfBirth`)}
                     />
-                    <Group align="flex-start" gap="sm" wrap="nowrap">
-                      <TextInput
-                        label="Серия документа"
-                        placeholder="1234"
-                        data-testid={`passenger-${index}-document-series`}
-                        {...form.getInputProps(`passengers.${index}.documentSeries`)}
-                      />
-                      <TextInput
-                        label="Номер документа"
-                        placeholder="567890"
-                        data-testid={`passenger-${index}-document-number`}
-                        {...form.getInputProps(`passengers.${index}.documentNumber`)}
-                      />
-                    </Group>
+                    <TextInput
+                      label="Серия и номер документа"
+                      placeholder="1234 567890"
+                      data-testid={`passenger-${index}-document`}
+                      {...form.getInputProps(`passengers.${index}.documentNumber`)}
+                    />
                   </SimpleGrid>
                 </Stack>
               </Card>
@@ -164,10 +154,10 @@ export function BookingForm({ flightId }: BookingFormProps) {
         </section>
 
         <Stack gap="md" align="flex-start">
-          <Button type="submit" size="md" loading={isPending} data-testid="submit-booking">
+          <Button type="submit" size="md" loading={isPending} data-testid="booking-submit">
             Забронировать
           </Button>
-          {submitError && <Alert color="red" role="alert">{submitError}</Alert>}
+          {submitError && <Alert data-testid="booking-error" color="red" role="alert">{submitError}</Alert>}
         </Stack>
       </Stack>
     </form>

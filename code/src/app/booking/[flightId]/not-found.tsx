@@ -3,7 +3,7 @@ import { Button, Container, Stack, Text, Title } from '@mantine/core'
 
 export default function BookingNotFound() {
   return (
-    <Container component="main" size={1120} mt="xl">
+    <Container data-testid="flight-not-found" component="main" size={1120} mt="xl">
       <Stack align="center" gap="md" ta="center">
         <Title order={1}>Рейс не найден</Title>
         <Text c="dimmed">

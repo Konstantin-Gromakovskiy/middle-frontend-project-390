@@ -23,7 +23,7 @@ export async function createBookingAction(flightId: string, values: BookingFormV
         firstName: passenger.firstName,
         lastName: passenger.lastName,
         dateOfBirth: passenger.dateOfBirth ? dayjs(passenger.dateOfBirth).format('YYYY-MM-DD') : '',
-        documentNumber: `${passenger.documentSeries.trim()} ${passenger.documentNumber.trim()}`,
+        documentNumber: passenger.documentNumber.trim(),
       })),
     })
 
