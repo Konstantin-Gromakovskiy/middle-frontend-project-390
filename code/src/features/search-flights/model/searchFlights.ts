@@ -1,11 +1,11 @@
 'use server'
 
 import dayjs from 'dayjs'
-import { getFlight } from '@/entities/flight/api/getFlight'
+import { searchFlights as searchFlightsApi } from '@/entities/flight/api/searchFlights'
 import type { FlightSearchValues } from './types'
 
 export async function searchFlights(values: FlightSearchValues) {
-  const result = await getFlight({
+  const result = await searchFlightsApi({
     origin: values.origin,
     destination: values.destination,
     date: dayjs(values.departureDate).format('YYYY-MM-DD'),
