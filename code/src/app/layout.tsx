@@ -3,8 +3,12 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import '@mantine/core/styles.css'
 import '@mantine/dates/styles.css'
-import { Box, ColorSchemeScript, Container, Divider, Group, MantineProvider, Text, mantineHtmlProps } from '@mantine/core'
+import {
+  Box, ColorSchemeScript, Container, Divider, Group, MantineProvider, Text, mantineHtmlProps,
+  Button,
+} from '@mantine/core'
 import { FlightTabs } from '@/components/FlightTabs'
+import { SentryInit } from '@/components/SentryInit'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -32,6 +36,7 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider>
+          <SentryInit />
           <Box px={{ base: 16, sm: 24 }}>
             <Container size={1120} px={0}>
               <Group component="header" h={84} justify="space-between" wrap="nowrap">
@@ -42,6 +47,7 @@ export default function RootLayout({
                 <Text c="gray" fz="sm">
                   Путешествия начинаются здесь
                 </Text>
+                <Button c="red" onClick={() => { throw new Error('Ошибка по нажатию на кнопку') }}>Отправить ошибку</Button>
               </Group>
               <Divider />
             </Container>
