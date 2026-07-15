@@ -5,7 +5,6 @@ import '@mantine/core/styles.css'
 import '@mantine/dates/styles.css'
 import {
   Box, ColorSchemeScript, Container, Divider, Group, MantineProvider, Text, mantineHtmlProps,
-  Button,
 } from '@mantine/core'
 import { FlightTabs } from '@/components/FlightTabs'
 import { SentryInit } from '@/components/SentryInit'
@@ -47,7 +46,6 @@ export default function RootLayout({
                 <Text c="gray" fz="sm">
                   Путешествия начинаются здесь
                 </Text>
-                <Button c="red" onClick={() => { throw new Error('Ошибка по нажатию на кнопку') }}>Отправить ошибку</Button>
               </Group>
               <Divider />
             </Container>

@@ -1,6 +1,6 @@
 'use client'
 
-import { Alert, Loader, Paper, Stack, Text, Title } from '@mantine/core'
+import { Alert, Loader, Paper, Stack, Text, Title, Button } from '@mantine/core'
 import { useCallback, useEffect, useRef, useState, useTransition } from 'react'
 import { FlightCard } from '@/entities/flight/ui/FlightCard'
 import { getCities } from '@/features/search-flights/model/getCities'
@@ -106,6 +106,8 @@ function FlightResultsContent({ cities }: FlightResultsContentProps) {
       <section data-testid="flight-results" aria-live="polite">
         <Stack gap="md">
           <Title order={2}>Рейсы</Title>
+          <Button c="red" onClick={() => { throw new Error('Ошибка по нажатию на кнопку') }}>Отправить ошибку</Button>
+
           {isLoading && <Loader aria-label="Загрузка рейсов" />}
           {searchState.status === 'error' && (
             <Alert data-testid="flights-error" role="alert" color="red">
