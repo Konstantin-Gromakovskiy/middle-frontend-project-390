@@ -4,13 +4,17 @@ import type { FindBookingValues } from './types'
 
 export async function findBooking(values: FindBookingValues) {
   try {
-    return { booking: await getBookingByCode(values.bookingCode.trim(), values.lastName.trim()), error: null }
+    return {
+      booking: await getBookingByCode(values.bookingCode.trim(), values.lastName.trim()),
+      error: null,
+      notFound: false,
+    }
   }
   catch (error) {
     if (error instanceof ApiError && error.status === 404) {
-      return { booking: null, error: 'Бронь с таким кодом и фамилией не найдена.' }
+      return { booking: null, error: 'Бронь не найдена.', notFound: true }
     }
 
-    return { booking: null, error: 'Не удалось найти бронь. Попробуйте ещё раз.' }
+    return { booking: null, error: 'Не удалось найти бронь. Попробуйте ещё раз.', notFound: false }
   }
 }

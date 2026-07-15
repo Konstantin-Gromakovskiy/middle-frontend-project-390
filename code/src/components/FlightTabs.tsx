@@ -17,7 +17,11 @@ export function FlightTabs() {
     <Tabs value={activeTab} variant="pills">
       <Tabs.List aria-label="Разделы Skybook">
         {tabs.map(tab => (
-          <Tabs.Tab key={tab.value} value={tab.value} renderRoot={props => <Link {...props} href={tab.href} />}>
+          <Tabs.Tab
+            key={tab.value}
+            value={tab.value}
+            renderRoot={props => <Link {...props} href={tab.href} data-testid={tab.value === 'bookings' ? 'nav-lookup' : undefined} />}
+          >
             {tab.label}
           </Tabs.Tab>
         ))}

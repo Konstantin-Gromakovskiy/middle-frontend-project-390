@@ -27,9 +27,15 @@ export function BookingDetails({ booking }: BookingDetailsProps) {
         <Group justify="space-between" align="flex-start">
           <div>
             <Text c="dimmed" size="sm">Код брони</Text>
-            <Title order={2}>{booking.code}</Title>
+            <Title order={2} data-testid="booking-code">{booking.code}</Title>
           </div>
-          <Badge color={isCancelled ? 'gray' : 'green'} variant="light" size="lg">
+          <Badge
+            color={isCancelled ? 'gray' : 'green'}
+            variant="light"
+            size="lg"
+            data-testid="booking-status"
+            data-status={booking.status}
+          >
             {isCancelled ? 'Отменена' : 'Подтверждена'}
           </Badge>
         </Group>

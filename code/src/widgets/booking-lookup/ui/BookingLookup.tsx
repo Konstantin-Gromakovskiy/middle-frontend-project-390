@@ -11,16 +11,19 @@ import type { Booking } from '@/shered/api/server-api.types'
 export function BookingLookup() {
   const [booking, setBooking] = useState<Booking | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [isNotFound, setIsNotFound] = useState(false)
   const [isPending, startTransition] = useTransition()
 
   const handleSearch = (values: FindBookingValues) => {
     setBooking(null)
     setError(null)
+    setIsNotFound(false)
 
     startTransition(async () => {
       const result = await findBooking(values)
       setBooking(result.booking)
       setError(result.error)
+      setIsNotFound(result.notFound)
     })
   }
 
@@ -37,7 +40,11 @@ export function BookingLookup() {
       </Paper>
 
       {isPending && <Loader aria-label="Поиск брони" />}
-      {error && <Alert data-testid="find-booking-error" role="alert" color="red">{error}</Alert>}
+      {error && (
+        <Alert data-testid={isNotFound ? 'booking-not-found' : 'find-booking-error'} role="alert" color="red">
+          {error}
+        </Alert>
+      )}
       {booking && <BookingDetails booking={booking} />}
     </Stack>
   )
