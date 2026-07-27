@@ -1,4 +1,5 @@
 {
+  "name": "@hexlet/code",
   "scripts": {
     "mock": "npx @stoplight/prism-cli mock contract/openapi.yaml"
   },
