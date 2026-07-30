@@ -19,7 +19,6 @@ export function FlightSearchForm({ cities, initialValues, isLoading, onSearchAct
     validate: {
       origin: value => value.trim().length > 0 ? null : 'Укажите город вылета',
       destination: value => value.trim().length > 0 ? null : 'Укажите город прилёта',
-      departureDate: value => value instanceof Date && !Number.isNaN(value.getTime()) ? null : 'Укажите дату',
       passengers: value => value >= 1 ? null : 'Укажите хотя бы одного пассажира',
     },
   })
