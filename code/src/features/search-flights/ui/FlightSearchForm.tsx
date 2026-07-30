@@ -1,6 +1,6 @@
 'use client'
 
-import { Autocomplete, Button, Flex, NumberInput } from '@mantine/core'
+import { Autocomplete, Button, Flex, NumberInput, Select } from '@mantine/core'
 import { DateInput } from '@mantine/dates'
 import { useForm } from '@mantine/form'
 import type { FlightSearchValues } from '../model/types'
@@ -10,10 +10,10 @@ type FlightSearchFormProps = {
   cities: City[]
   initialValues: FlightSearchValues
   isLoading: boolean
-  onSearch: (values: FlightSearchValues) => void
+  onSearchAction: (values: FlightSearchValues) => void
 }
 
-export function FlightSearchForm({ cities, initialValues, isLoading, onSearch }: FlightSearchFormProps) {
+export function FlightSearchForm({ cities, initialValues, isLoading, onSearchAction }: FlightSearchFormProps) {
   const form = useForm<FlightSearchValues>({
     initialValues,
     validate: {
@@ -35,7 +35,7 @@ export function FlightSearchForm({ cities, initialValues, isLoading, onSearch }:
   }
 
   const handleSubmit = (values: FlightSearchValues) => {
-    onSearch({
+    onSearchAction({
       ...values,
       origin: getCityCode(values.origin),
       destination: getCityCode(values.destination),
@@ -43,22 +43,22 @@ export function FlightSearchForm({ cities, initialValues, isLoading, onSearch }:
   }
   const submitForm = form.onSubmit(handleSubmit)
 
-  const cityOptions = cities.map(({ code, name, country }) => ({
+  const cityOptions = cities.map(({ code, name }) => ({
     value: code,
-    label: `${name}${country ? `, ${country}` : ''} (${code})`,
+    label: name,
   }))
 
   return (
     <form data-testid="flight-search-form" onSubmit={submitForm}>
       <Flex gap="lg" align="flex-end">
-        <Autocomplete
+        <Select
           label="Откуда"
           placeholder="Город вылета"
           data={cityOptions}
           data-testid="search-origin"
           {...form.getInputProps('origin')}
         />
-        <Autocomplete
+        <Select
           label="Куда"
           placeholder="Город прилёта"
           data={cityOptions}

@@ -100,7 +100,7 @@ function FlightResultsContent({ cities }: FlightResultsContentProps) {
         cities={cities}
         initialValues={initialValues}
         isLoading={isLoading}
-        onSearch={handleSearch}
+        onSearchAction={handleSearch}
       />
 
       <section data-testid="flight-results" aria-live="polite">
