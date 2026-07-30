@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Flex, NumberInput, Select } from '@mantine/core'
+import { Button, Flex, NativeSelect, NumberInput, Select } from '@mantine/core'
 import { DateInput } from '@mantine/dates'
 import { useForm } from '@mantine/form'
 import type { FlightSearchValues } from '../model/types'
@@ -51,16 +51,14 @@ export function FlightSearchForm({ cities, initialValues, isLoading, onSearchAct
   return (
     <form data-testid="flight-search-form" onSubmit={submitForm}>
       <Flex gap="lg" align="flex-end">
-        <Select
+        <NativeSelect
           label="Откуда"
-          placeholder="Город вылета"
           data={cityOptions}
           data-testid="search-origin"
           {...form.getInputProps('origin')}
         />
-        <Select
+        <NativeSelect
           label="Куда"
-          placeholder="Город прилёта"
           data={cityOptions}
           data-testid="search-destination"
           {...form.getInputProps('destination')}
