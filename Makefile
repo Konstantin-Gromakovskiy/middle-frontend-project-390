@@ -1,26 +1,25 @@
 # разработка фронта
 dev:
-	cd code && npm run dev
+	npm run dev
 
 build:
-	cd code && npm run build
+	npm run build
 
 start:
-	npx frontend-flight-booking-server start -s ./code/out
+	npx frontend-flight-booking-server start -s ./out
 
 install:
-	npm ci && cd code && npm ci
+	npm ci
 
 test:
-	cd code && npm run test
+	npm run test
 
 lint:
-	cd code && npm run lint
+	npm run lint
 
 mock-server:
 	npm run mock
 
 backend:
 	npx frontend-flight-booking-server start
-
 

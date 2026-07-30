@@ -1,6 +1,23 @@
 node_modules
 
+# Next.js
+/.next/
+/out/
+
+# Environment files
+.env*
+!.env.example
+
+# Test reports
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+# TypeScript / Next.js generated files
+*.tsbuildinfo
+next-env.d.ts
+
 .idea
 
 /test-results
-
