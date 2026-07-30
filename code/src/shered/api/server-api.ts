@@ -8,14 +8,8 @@ import type {
 import { apiPaths } from '@/shered/config/api-paths'
 import { ApiError, getApiErrorResponse } from './api-error'
 
-function getApiUrl() {
-  const apiUrl = process.env.VITE_API_URL
-  if (!apiUrl) throw new Error('VITE_API_URL is not defined')
-  return apiUrl.replace(/\/$/, '')
-}
-
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(`${getApiUrl()}${path}`, init)
+  const response = await fetch(path, init)
 
   if (!response.ok) {
     const error = await getApiErrorResponse(response)
