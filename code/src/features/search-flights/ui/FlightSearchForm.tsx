@@ -1,6 +1,6 @@
 'use client'
 
-import { Autocomplete, Button, Flex, NumberInput, Select } from '@mantine/core'
+import { Button, Flex, NumberInput, Select } from '@mantine/core'
 import { DateInput } from '@mantine/dates'
 import { useForm } from '@mantine/form'
 import type { FlightSearchValues } from '../model/types'

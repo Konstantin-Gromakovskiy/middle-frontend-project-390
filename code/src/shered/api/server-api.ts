@@ -9,8 +9,8 @@ import { apiPaths } from '@/shered/config/api-paths'
 import { ApiError, getApiErrorResponse } from './api-error'
 
 function getApiUrl() {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL
-  if (!apiUrl) throw new Error('NEXT_PUBLIC_API_URL is not defined')
+  const apiUrl = process.env.VITE_API_URL
+  if (!apiUrl) throw new Error('VITE_API_URL is not defined')
   return apiUrl.replace(/\/$/, '')
 }
 
