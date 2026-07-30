@@ -6,12 +6,12 @@ import { usePathname } from 'next/navigation'
 
 const tabs = [
   { value: 'search', label: 'Поиск рейсов', href: '/' },
-  { value: 'bookings', label: 'Мои брони', href: '/bookings' },
+  { value: 'bookings', label: 'Мои брони', href: '/lookup' },
 ]
 
 export function FlightTabs() {
   const pathname = usePathname()
-  const activeTab = pathname === '/bookings' ? 'bookings' : 'search'
+  const activeTab = pathname === '/lookup' ? 'bookings' : 'search'
 
   return (
     <Tabs value={activeTab} variant="pills">
