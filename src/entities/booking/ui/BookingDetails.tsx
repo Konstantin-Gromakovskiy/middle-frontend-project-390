@@ -3,6 +3,8 @@ import type { Booking } from '@/shered/api/server-api.types'
 
 type BookingDetailsProps = {
   booking: Booking
+  isCancelling: boolean
+  onCancel: () => void
 }
 
 const dateTimeFormatter = new Intl.DateTimeFormat('ru-RU', {
@@ -18,7 +20,7 @@ function formatMoney(amount: number, currency: string) {
   return new Intl.NumberFormat('ru-RU', { style: 'currency', currency }).format(amount)
 }
 
-export function BookingDetails({ booking }: BookingDetailsProps) {
+export function BookingDetails({ booking, isCancelling, onCancel }: BookingDetailsProps) {
   const isCancelled = booking.status === 'cancelled'
 
   return (
@@ -102,7 +104,15 @@ export function BookingDetails({ booking }: BookingDetailsProps) {
         </Group>
 
         {!isCancelled && (
-          <Button type="button" variant="light" color="red" disabled data-testid="cancel-booking">
+          <Button
+            type="button"
+            variant="light"
+            color="red"
+            loading={isCancelling}
+            disabled={isCancelling}
+            onClick={onCancel}
+            data-testid="cancel-booking"
+          >
             Отменить бронирование
           </Button>
         )}

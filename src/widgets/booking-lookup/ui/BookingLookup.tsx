@@ -3,6 +3,7 @@
 import { Alert, Loader, Paper, Stack, Text, Title } from '@mantine/core'
 import { useState, useTransition } from 'react'
 import { BookingDetails } from '@/entities/booking/ui/BookingDetails'
+import { cancelBookingAction } from '@/features/cancel-booking/model/cancelBookingAction'
 import { findBooking } from '@/features/find-booking/model/findBooking'
 import { FindBookingForm } from '@/features/find-booking/ui/FindBookingForm'
 import type { FindBookingValues } from '@/features/find-booking/model/types'
@@ -13,6 +14,9 @@ export function BookingLookup() {
   const [error, setError] = useState<string | null>(null)
   const [isNotFound, setIsNotFound] = useState(false)
   const [isPending, startTransition] = useTransition()
+  const [lastName, setLastName] = useState<string | null>(null)
+  const [cancelError, setCancelError] = useState<string | null>(null)
+  const [isCancelling, startCancelTransition] = useTransition()
 
   const handleSearch = (values: FindBookingValues) => {
     setBooking(null)
@@ -24,6 +28,19 @@ export function BookingLookup() {
       setBooking(result.booking)
       setError(result.error)
       setIsNotFound(result.notFound)
+      setLastName(result.booking ? values.lastName.trim() : null)
+      setCancelError(null)
+    })
+  }
+
+  const handleCancel = () => {
+    if (!booking || !lastName) return
+
+    setCancelError(null)
+    startCancelTransition(async () => {
+      const result = await cancelBookingAction(booking.code, lastName)
+      if (result.booking) setBooking(result.booking)
+      setCancelError(result.error)
     })
   }
 
@@ -45,7 +62,14 @@ export function BookingLookup() {
           {error}
         </Alert>
       )}
-      {booking && <BookingDetails booking={booking} />}
+      {cancelError && <Alert data-testid="cancel-booking-error" role="alert" color="red">{cancelError}</Alert>}
+      {booking && (
+        <BookingDetails
+          booking={booking}
+          isCancelling={isCancelling}
+          onCancel={handleCancel}
+        />
+      )}
     </Stack>
   )
 }
