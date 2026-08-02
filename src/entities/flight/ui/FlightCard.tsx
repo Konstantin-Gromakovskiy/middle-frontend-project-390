@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { Badge, Button, Card, Divider, Group, Stack, Text } from '@mantine/core'
+import { SpaLink } from '@/components/SpaRouter'
 import type { Flight } from '@/shered/api/server-api.types'
 
 type FlightCardProps = {
@@ -65,7 +65,7 @@ export function FlightCard({ flight }: FlightCardProps) {
           <Text fw={700} size="lg">
             {price}
           </Text>
-          <Button data-testid="book-flight" component={Link} href={`/booking?flightId=${encodeURIComponent(flight.id)}`}>
+          <Button data-testid="book-flight" component={SpaLink} href={`/booking?flightId=${encodeURIComponent(flight.id)}`}>
             Забронировать
           </Button>
         </Group>

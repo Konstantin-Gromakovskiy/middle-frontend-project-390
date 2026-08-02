@@ -4,15 +4,24 @@ import { Alert, Container, Loader, Stack } from '@mantine/core'
 import { useEffect, useState } from 'react'
 import { getFlightById } from '@/entities/flight/api/getFlightById'
 import type { Flight } from '@/shered/api/server-api.types'
+import { useSpaLocation } from '@/components/SpaRouter'
 import { Booking } from '@/widgets/booking/ui/Booking'
 
-export default function BookingPage() {
+export function BookingPage() {
+  const { search } = useSpaLocation()
   const [flight, setFlight] = useState<Flight | null>(null)
   const [hasError, setHasError] = useState(false)
 
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get('flightId')
+    const id = new URLSearchParams(search).get('flightId')
     let isCurrent = true
+
+    Promise.resolve().then(() => {
+      if (isCurrent) {
+        setFlight(null)
+        setHasError(false)
+      }
+    })
 
     if (!id) {
       Promise.resolve().then(() => {
@@ -34,7 +43,7 @@ export default function BookingPage() {
     return () => {
       isCurrent = false
     }
-  }, [])
+  }, [search])
 
   if (hasError) {
     return (

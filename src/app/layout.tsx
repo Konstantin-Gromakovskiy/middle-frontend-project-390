@@ -7,6 +7,7 @@ import {
   Box, ColorSchemeScript, Container, Divider, Group, MantineProvider, Text, mantineHtmlProps,
 } from '@mantine/core'
 import { FlightTabs } from '@/components/FlightTabs'
+import { SpaRouter } from '@/components/SpaRouter'
 import { SentryInit } from '@/components/SentryInit'
 
 const geistSans = Geist({
@@ -34,24 +35,26 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider>
-          <SentryInit />
-          <Box px={{ base: 16, sm: 24 }}>
-            <Container size={1120} px={0}>
-              <Group component="header" h={84} justify="space-between" wrap="nowrap">
-                <Text c="blue" fw={800} fz="xl">
-                  Skybook
-                </Text>
-                <FlightTabs />
-                <Text c="gray" fz="sm">
-                  Путешествия начинаются здесь
-                </Text>
-              </Group>
-              <Divider />
-            </Container>
-          </Box>
-          {children}
-        </MantineProvider>
+        <SpaRouter>
+          <MantineProvider>
+            <SentryInit />
+            <Box px={{ base: 16, sm: 24 }}>
+              <Container size={1120} px={0}>
+                <Group component="header" h={84} justify="space-between" wrap="nowrap">
+                  <Text c="blue" fw={800} fz="xl">
+                    Skybook
+                  </Text>
+                  <FlightTabs />
+                  <Text c="gray" fz="sm">
+                    Путешествия начинаются здесь
+                  </Text>
+                </Group>
+                <Divider />
+              </Container>
+            </Box>
+            {children}
+          </MantineProvider>
+        </SpaRouter>
       </body>
     </html>
   )

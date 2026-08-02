@@ -1,8 +1,7 @@
 'use client'
 
-import Link from 'next/link'
 import { Tabs } from '@mantine/core'
-import { usePathname } from 'next/navigation'
+import { SpaLink, useSpaLocation } from '@/components/SpaRouter'
 
 const tabs = [
   { value: 'search', label: 'Поиск рейсов', href: '/' },
@@ -10,8 +9,8 @@ const tabs = [
 ]
 
 export function FlightTabs() {
-  const pathname = usePathname()
-  const activeTab = pathname === '/lookup' ? 'bookings' : 'search'
+  const { pathname } = useSpaLocation()
+  const activeTab = pathname.replace(/\/+$/, '') === '/lookup' ? 'bookings' : 'search'
 
   return (
     <Tabs value={activeTab} variant="pills">
@@ -20,7 +19,7 @@ export function FlightTabs() {
           <Tabs.Tab
             key={tab.value}
             value={tab.value}
-            renderRoot={props => <Link {...props} href={tab.href} data-testid={tab.value === 'bookings' ? 'nav-lookup' : undefined} />}
+            renderRoot={props => <SpaLink {...props} href={tab.href} data-testid={tab.value === 'bookings' ? 'nav-lookup' : undefined} />}
           >
             {tab.label}
           </Tabs.Tab>
